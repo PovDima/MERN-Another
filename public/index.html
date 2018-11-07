@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/style.css">
+  <title>MERN</title>
+</head>
+<body>
+  <h1 class="title">User REST API</h1>
+  <div id="homepage">
+      <h1>Hire a users in your area!</h1>
+      <div id="main"></div>
+  </div>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+<script type="text/babel">
+  
+class Users extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      users:[]
+    }
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let lng =this.refs.lng.value;
+    let lat =this.refs.lat.value;
+    fetch('/api/users?lng='+ lng + '&lat=' + lat)
+      .then(data => {
+        return data.json();
+      })
+      .then(json => {
+        this.setState({
+          users:json
+        });
+      })
+      .catch(err =>{
+      console.log(err);
+    });
+  }
+    render() {
+      let users = this.state.users;
+      users = users.map((user,index) => {
+        console.log(user)
+        return(
+          <li key={index}>
+            <span className="firstName">{user.firstName}</span>
+            <span className="lastName">{user.lastName}</span>
+            <span className="age">{user.age}</span>
+            <span classsName="dist">{Math.floor(user.dist.calculated)} km</span>
+          </li>
+        )
+      })
+      return (
+        <div id="user-conatiner">
+          <form id="search" onSubmit={this.handleSubmit} >
+            <label>Enter your latitude</label>
+            <input type="text" ref="lat" placeholder="latitude" required></input>
+            <label>Enter your longitude</label>
+            <input type="text" ref="lng" placeholder="longitude" required></input>
+            <input type="submit" value="Find Users" /> 
+            </form>
+            <ul>{users}</ul>
+        </div>
+      )
+    }
+  }
+  ReactDOM.render(<Users />, document.getElementById('main'))
+
+</script>
+</body>
+</html>
