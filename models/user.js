@@ -29,6 +29,6 @@ const UserSchema = new Schema({
   },
   geometry: GeoSchema
 });
-const User = mongoose.model('user', UserSchema);
+const User = mongoose.model('Users', UserSchema);
 
 module.exports = User;

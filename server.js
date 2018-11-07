@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017', () => console.log('connected to DB'))
+mongoose.connect('mongodb://dima:dimapov19@ds253243.mlab.com:53243/users', () => console.log('connected to DB'))
 mongoose.Promise = global.Promise;
 
 app.use(express.static('public'))
